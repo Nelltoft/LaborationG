@@ -1,0 +1,19 @@
+﻿@page "/products"
+@page "/products/{id:int}"
+@using LaborationG.Data
+@inject IData data
+
+@if (Id <= 0)
+{
+    <h3>Books</h3>
+    <ProductList/>
+}
+else
+{
+    <Product TheProduct="data.Products[Id - 1]"/>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+}

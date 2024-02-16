@@ -1,0 +1,47 @@
+﻿@using LaborationG.Data
+@inject IData data
+
+<h2>Items in cart:</h2>
+
+<table class="table table-striped w-50">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in data.ProductsInCart)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price $</td>
+                <td><button @onclick="() => data.RemoveProductFromCart(product.Id)" class="btn btn-danger">Remove from cart</button></td>
+            </tr>            
+        }
+        <tr>
+            <td>Total Cost:</td>
+            <td>@Result.ToString("0.00") $</td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+@code {
+    public double Result { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await data.GetLocalStorage();
+    }
+
+    protected override void OnParametersSet()
+    {
+        foreach (var product in data.ProductsInCart)
+        {
+            Result += product.Price;
+        }
+        StateHasChanged();
+    }
+}

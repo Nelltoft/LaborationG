@@ -1,0 +1,27 @@
+﻿@page "/cart"
+@using LaborationG.Data
+@inject IData data
+@inject NavigationManager navigationManager
+@inject ILocalStorageService localStorage
+
+<h3>Shopping Cart</h3>
+
+<CartList/>
+
+<form @onsubmit="ThankYou" class="w-50">
+    <label for="inputName" class="form-label">Name:</label>
+    <input type="text" class="form-control" id="inputName"/>
+    <br />
+    <label for="inputAddress" class="form-label">Address:</label>
+    <input type="text" class="form-control" id="inputAddress"/>
+    <button type="submit" value="submit" class="btn btn-success">Confirm purchase</button>
+</form>
+
+@code {
+    public void ThankYou()
+    {
+        data.ProductsInCart.Clear();
+        localStorage.ClearAsync();
+        navigationManager.NavigateTo("thankyou");
+    }
+}

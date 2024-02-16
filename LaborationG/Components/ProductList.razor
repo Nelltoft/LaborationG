@@ -1,0 +1,19 @@
+﻿@using LaborationG.Data
+@inject IData data
+
+@foreach (var product in data.Products)
+{
+    <div class="card" style="width: 18rem;">
+      <img src="@product.Image" class="card-img-top" alt="Image of the book cover">
+      <div class="card-body">
+        <h5 class="card-title">@product.Name</h5>
+        <p class="card-text">@product.Price $</p>
+        <a href="products/@product.Id" class="btn btn-primary">Details</a>
+        <button @onclick="() => data.AddProductToCart(product)" class="btn btn-success">Buy</button>
+      </div>
+    </div>
+}
+
+@code {
+
+}

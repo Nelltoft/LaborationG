@@ -1,0 +1,17 @@
+﻿@using LaborationG.Data
+@inject IData data
+
+<div class="card" style="width: 18rem;">
+    <img src="@TheProduct?.Image" class="card-img-top" alt="Image of the book cover">
+    <div class="card-body">
+        <h5 class="card-title">@TheProduct?.Name</h5>
+        <p class="card-text">@TheProduct?.Description</p>
+        <p class="card-text">@TheProduct?.Price $</p>
+        <button @onclick="e => {if(TheProduct is not null) data.AddProductToCart(TheProduct);}" class="btn btn-primary">Buy</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public IProduct? TheProduct { get; set; }
+}
