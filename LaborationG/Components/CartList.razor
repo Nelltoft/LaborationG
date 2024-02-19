@@ -17,7 +17,7 @@
             <tr>
                 <td>@product.Name</td>
                 <td>@product.Price $</td>
-                <td><button @onclick="() => data.RemoveProductFromCart(product.Id)" class="btn btn-danger">Remove from cart</button></td>
+                <td><button @onclick="() => RemoveFromCart(product.Id)" class="btn btn-danger">Remove from cart</button></td>
             </tr>            
         }
         <tr>
@@ -36,12 +36,22 @@
         await data.GetLocalStorage();
     }
 
+    public void RemoveFromCart(int id)
+    {
+        data.RemoveProductFromCart(id);
+        Result = 0;
+        foreach (var product in data.ProductsInCart)
+        {
+            Result += product.Price;
+        }
+        StateHasChanged();
+    }
+
     protected override void OnParametersSet()
     {
         foreach (var product in data.ProductsInCart)
         {
             Result += product.Price;
         }
-        StateHasChanged();
     }
 }

@@ -10,18 +10,24 @@
 
 <form @onsubmit="ThankYou" class="w-50">
     <label for="inputName" class="form-label">Name:</label>
-    <input type="text" class="form-control" id="inputName"/>
+    <input @bind="data.Customer.Name" type="text" class="form-control" id="inputName" />
     <br />
     <label for="inputAddress" class="form-label">Address:</label>
-    <input type="text" class="form-control" id="inputAddress"/>
+    <input @bind="data.Customer.Address" type="text" class="form-control" id="inputAddress" />
     <button type="submit" value="submit" class="btn btn-success">Confirm purchase</button>
 </form>
 
 @code {
     public void ThankYou()
     {
+        data.AddBoughtProducts(data.ProductsInCart);
         data.ProductsInCart.Clear();
         localStorage.ClearAsync();
         navigationManager.NavigateTo("thankyou");
+    }
+    protected override void OnInitialized()
+    {
+        data.Customer.Name = string.Empty;
+        data.Customer.Address = string.Empty;
     }
 }

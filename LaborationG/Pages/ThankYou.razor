@@ -1,7 +1,41 @@
 ﻿@page "/thankyou"
+@using LaborationG.Data
+@inject IData data
 
-<h3>Thank you for your purchase</h3>
+<h3>Thank you for your purchase @data.Customer.Name</h3>
+
+<p>The products below will be shipped to your address: @data.Customer.Address</p>
+
+<ul>
+    @if (data.BoughtProducts is not null)
+    {
+        @foreach (var product in data.BoughtProducts)
+        {
+            <li>@product.Name</li>
+        }
+    }
+</ul>
+
+<p>Total price: @TotalPrice.ToString("0.00") $</p>
 
 @code {
+    public double TotalPrice { get; set; }
 
+    protected override void OnInitialized()
+    {
+        if (data.BoughtProducts is not null)
+        {
+            foreach (var product in data.BoughtProducts)
+            {
+                TotalPrice += product.Price;
+            }
+        }
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            data.BoughtProducts.Clear();
+        }
+    }
 }

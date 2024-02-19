@@ -9,10 +9,12 @@ public class Data : IData
 {
     public List<IProduct> _products = new();
     public List<IProduct> _productsInCart = new();
+    public List<IProduct> _boughtProducts = new();
     private readonly ILocalStorageService _localStorage;
-
-    List<IProduct> IData.ProductsInCart => _productsInCart;
+    public Customer Customer { get; set; } = new();
     List<IProduct> IData.Products => _products;
+    List<IProduct> IData.ProductsInCart => _productsInCart;
+    List<IProduct> IData.BoughtProducts => _boughtProducts;
 
     public Data(ILocalStorageService localStorage)
     {
@@ -47,6 +49,10 @@ public class Data : IData
                 _productsInCart.Add(item);
             }
         }
+    }
+    public void AddBoughtProducts(List<IProduct> products)
+    {
+        _boughtProducts.AddRange(products);
     }
     public void Seed()
     {
